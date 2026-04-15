@@ -95,7 +95,7 @@ def run_once(settings, city):
 
     if settings.pvo_system_id and settings.pvo_api_key:
         pvo = pvo_api.PVOutputApi(settings.pvo_system_id, settings.pvo_api_key)
-        pvo.add_status(data['pgrid_w'], last_eday_kwh, data.get('temperature'), voltage)
+        pvo.add_status(data['pgrid_w'], last_eday_kwh, data.get('temperature'), voltage, data['load'], data['batteryPercentage'], data['batteryPower'], data['gridPower'])
     else:
         logging.debug(str(data))
         logging.warning("Missing PVO id and/or key")
