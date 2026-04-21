@@ -64,6 +64,7 @@ class GoodWeApi:
                 result['pgrid_w'] += inverterData['out_pac']
                 result['grid_voltage'] += self.parseValue(inverterData['output_voltage'], 'V')
                 result['pv_voltage'] += self.calcPvVoltage(inverterData['d'])
+                result['batteryPower'] = inverterData['battery_power']
                 count += 1
             result['eday_kwh'] += inverterData['eday']
             result['etotal_kwh'] += inverterData['etotal']
@@ -78,15 +79,14 @@ class GoodWeApi:
             result['pgrid_w'] = inverterData['out_pac']
             result['grid_voltage'] = self.parseValue(inverterData['output_voltage'], 'V')
             result['pv_voltage'] = self.calcPvVoltage(inverterData['d'])
-            result['batteryPower'] = self.parseValue(inverterData['output_power'], 'W')
-
+        
         if data.get('hasPowerflow'):
             powerflow = data['powerflow']
             result['load'] = self.parseValue(powerflow['load'], '(W)')
             result['batteryPercentage'] = powerflow['soc']
             result['gridPower'] = self.parseValue(powerflow['grid'], '(W)')
         
-        message = "{status}, {pgrid_w} W now, {eday_kwh} kWh today, {etotal_kwh} kWh all time, {grid_voltage} V grid, {pv_voltage} V PV, {batteryPower} W output, {gridPower} Grid Power, {batteryPercentage} battery".format(**result)
+        message = "{status}, {pgrid_w} W now, {eday_kwh} kWh today, {etotal_kwh} kWh all time, {grid_voltage} V grid, {pv_voltage} V PV, Battery {batteryPower} W output, {gridPower} Grid Power, {batteryPercentage} battery".format(**result)
         if result['status'] == 'Normal' or result['status'] == 'Offline':
             logging.info(message)
         else:
