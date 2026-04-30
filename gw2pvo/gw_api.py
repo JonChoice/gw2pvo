@@ -84,7 +84,7 @@ class GoodWeApi:
             powerflow = data['powerflow']
             result['load'] = self.parseValue(powerflow['load'], '(W)')
             result['batteryPercentage'] = powerflow['soc']
-            result['gridPower'] = self.parseValue(powerflow['grid'], '(W)')
+            result['gridPower'] = self.parseValue(powerflow['grid'], '(W)') * int(powerflow['loadStatus'])            
         
         message = "{status}, {pgrid_w} W now, {eday_kwh} kWh today, {etotal_kwh} kWh all time, {grid_voltage} V grid, {pv_voltage} V PV, Battery {batteryPower} W output, {gridPower} Grid Power, {batteryPercentage} battery".format(**result)
         if result['status'] == 'Normal' or result['status'] == 'Offline':
