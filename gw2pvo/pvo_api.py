@@ -40,7 +40,7 @@ class PVOutputApi:
             payload['v11'] = batteryPower
         
         if gridPower is not None:
-            payload['v12'] = gridPower
+            payload['v12'] = -gridPower
 
         self.call("https://pvoutput.org/service/r2/addstatus.jsp", payload)
 
